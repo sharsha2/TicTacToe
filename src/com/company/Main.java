@@ -21,14 +21,29 @@ public class Main {
             Scanner scan = new Scanner(System.in);
             System.out.println("Enter your placement key 1 to 9 : ");
             int playerPos = scan.nextInt();
+            while (playerPositions.contains(playerPos) || cpuPositions.contains(playerPositions)){
+                System.out.println("Position Taken! Enter a Correct Position.");
+                playerPos = scan.nextInt();
+            }
             placePiece(gameBoard, playerPos, "player");
+            String result = checkWinner();
+            if(result.length() > 0) {
+                System.out.println(result);
+                break;
+            }
 
             Random rand = new Random();
             int cpuPos = rand.nextInt(9) + 1;
+            while (playerPositions.contains(cpuPos) || cpuPositions.contains(cpuPos)){
+                cpuPos = rand.nextInt(9) + 1;
+            }
             placePiece(gameBoard, cpuPos, "cpu");
             printGameBoard(gameBoard);
-            String result = checkWinner();
-            System.out.println(result);
+            result = checkWinner();
+            if(result.length() > 0) {
+                System.out.println(result);
+                break;
+            }
         }
     }
 
@@ -111,7 +126,7 @@ public class Main {
             else if (cpuPositions.containsAll(l)){
                 return "CPU wins! Sorry 😭  😢  😪  😥  😓  🤯";
             }
-            else if(playerPositions.size() + cpuPositions.size() == 9){
+            else if (playerPositions.size() + cpuPositions.size() == 9){
                 return "Tie!  🧸  👔";
             }
         }
